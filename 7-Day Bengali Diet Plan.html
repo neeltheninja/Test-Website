@@ -1,0 +1,257 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>7-Day Bengali Diet Plan</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+        h2 {
+            color: #2980b9;
+            font-size: 1.8em;
+            margin-top: 30px;
+        }
+        .intro, .guidelines, .notes {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        .meal-plan {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .day-card {
+            background-color: #fff;
+            width: 300px;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+        .day-card:hover {
+            transform: scale(1.05);
+        }
+        .day-card h3 {
+            margin: 0 0 10px;
+            font-size: 1.5em;
+            text-align: center;
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px 5px 0 0;
+        }
+        .day-card ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        .day-card li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .day-card li:last-child {
+            border-bottom: none;
+        }
+        .day-card .total {
+            font-weight: bold;
+            color: #e74c3c;
+            text-align: center;
+            margin-top: 10px;
+        }
+        .day1 { background-color: #e74c3c; }
+        .day2 { background-color: #3498db; }
+        .day3 { background-color: #2ecc71; }
+        .day4 { background-color: #f1c40f; }
+        .day5 { background-color: #9b59b6; }
+        .day6 { background-color: #e67e22; }
+        .day7 { background-color: #1abc9c; }
+        .recipes {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .recipe-item {
+            margin-bottom: 20px;
+        }
+        .recipe-item h4 {
+            color: #2980b9;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>7-Day Balanced Bengali Diet Plan</h1>
+    <div class="intro">
+        <p>This plan is crafted for a 25-year-old woman, 150 cm tall, 65 kg, aiming to reduce belly fat and bloating in one week. It’s tailored to a Bengali diet, avoiding fish and chicken, with ~1,200 calories daily—a safe deficit from your ~1,700-calorie TDEE. Expect slight weight loss (~0.5 kg) and a flatter belly from reduced bloating.</p>
+    </div>
+
+    <div class="guidelines">
+        <h2>Guidelines</h2>
+        <ul>
+            <li><strong>Hydration:</strong> Drink 8-10 glasses of water daily to flush sodium and reduce bloating.</li>
+            <li><strong>Avoid:</strong> Fried foods, sweets, high-sodium dishes.</li>
+            <li><strong>Exercise:</strong> 30 min brisk walking daily (~150-200 kcal burned).</li>
+            <li><strong>Sleep:</strong> 7-8 hours nightly for metabolism support.</li>
+            <li><strong>Portions:</strong> Use smaller plates to control intake.</li>
+        </ul>
+    </div>
+
+    <h2>Your Meal Plan</h2>
+    <div class="meal-plan">
+        <div class="day-card">
+            <h3 class="day1">Day 1</h3>
+            <ul>
+                <li><strong>Breakfast:</strong> Chirer Pulao (flattened rice, veggies, minimal oil) + Tea (50 ml milk) – 325 kcal</li>
+                <li><strong>Mid-Morning:</strong> Buttermilk (150 ml) – 20 kcal</li>
+                <li><strong>Lunch:</strong> Wheat bran chapati (2) + Moong dal (1 cup) + Veggie curry (spinach, pumpkin) + Salad – 590 kcal</li>
+                <li><strong>Evening:</strong> Yogurt (100g) + Banana – 150 kcal</li>
+                <li><strong>Dinner:</strong> Wheat bran chapati (1) + Chana dal (1 cup) + Salad – 340 kcal</li>
+            </ul>
+            <p class="total">Total: ~1,225 kcal</p>
+        </div>
+        <div class="day-card">
+            <h3 class="day2">Day 2</h3>
+            <ul>
+                <li><strong>Breakfast:</strong> Besan cheela (2, minimal oil) + Tea (50 ml milk) – 325 kcal</li>
+                <li><strong>Mid-Morning:</strong> Sprouts salad (100g) – 100 kcal</li>
+                <li><strong>Lunch:</strong> Brown rice (12 cup) + Masoor dal (1 cup) + Shukto + Paneer curry (50g) – 600 kcal</li>
+                <li><strong>Evening:</strong> Steamed corn (100g) + Tea (50 ml milk) – 165 kcal</li>
+                <li><strong>Dinner:</strong> Veggie soup (1 cup) + Wheat bran chapati (1) + Salad – 240 kcal</li>
+            </ul>
+            <p class="total">Total: ~1,230 kcal</p>
+        </div>
+        <div class="day-card">
+            <h3 class="day3">Day 3</h3>
+            <ul>
+                <li><strong>Breakfast:</strong> Jhal Sooji (semolina, veggies, minimal oil) + Tea (50 ml milk) – 325 kcal</li>
+                <li><strong>Mid-Morning:</strong> Buttermilk (150 ml) – 20 kcal</li>
+                <li><strong>Lunch:</strong> Wheat bran chapati (2) + Chana dal (1 cup) + Lau ghonto (bottle gourd) + Salad – 590 kcal</li>
+                <li><strong>Evening:</strong> Papaya (100g) + Yogurt (100g) – 150 kcal</li>
+                <li><strong>Dinner:</strong> Poha (veggies, 100g) + Salad – 190 kcal</li>
+            </ul>
+            <p class="total">Total: ~1,225 kcal</p>
+        </div>
+        <div class="day-card">
+            <h3 class="day4">Day 4</h3>
+            <ul>
+                <li><strong>Breakfast:</strong> Moong dal chilla (2, minimal oil) + Tea (50 ml milk) – 325 kcal</li>
+                <li><strong>Mid-Morning:</strong> Orange (1) – 50 kcal</li>
+                <li><strong>Lunch:</strong> Brown rice (1/2 cup) + Tofu curry (100g) + Veggie bharta (eggplant) + Salad – 440 kcal</li>
+                <li><strong>Evening:</strong> Murmura chaat (100g) + Tea (50 ml milk) – 165 kcal</li>
+                <li><strong>Dinner:</strong> Wheat bran chapati (1) + Moong dal (1 cup) + Salad – 340 kcal</li>
+            </ul>
+            <p class="total">Total: ~1,220 kcal</p>
+        </div>
+        <div class="day-card">
+            <h3 class="day5">Day 5</h3>
+            <ul>
+                <li><strong>Breakfast:</strong> Veggie omelette (2 eggs, minimal oil) + Tea (50 ml milk) – 325 kcal</li>
+                <li><strong>Mid-Morning:</strong> Buttermilk (150 ml) – 20 kcal</li>
+                <li><strong>Lunch:</strong> Wheat bran chapati (2) + Paneer curry (100g) + Mixed veggies + Salad – 590 kcal</li>
+                <li><strong>Evening:</strong> Yogurt (100g) + Berries – 150 kcal</li>
+                <li><strong>Dinner:</strong> Tofu stir-fry (100g, veggies) + Veggie soup (1 cup) + Salad – 290 kcal</li>
+            </ul>
+            <p class="total">Total: ~1,225 kcal</p>
+        </div>
+        <div class="day-card">
+            <h3 class="day6">Day 6</h3>
+            <ul>
+                <li><strong>Breakfast:</strong> Chirer Pulao (veggies) + Tea (50 ml milk) – 325 kcal</li>
+                <li><strong>Mid-Morning:</strong> Sprouts salad (100g) – 100 kcal</li>
+                <li><strong>Lunch:</strong> Brown rice (1/2 cup) + Masoor dal (1 cup) + Begun bhaja (eggplant, minimal oil) + Salad – 490 kcal</li>
+                <li><strong>Evening:</strong> Steamed corn (100g) + Tea (50 ml milk) – 165 kcal</li>
+                <li><strong>Dinner:</strong> Wheat bran chapati (1) + Moong dal (1 cup) + Salad – 340 kcal</li>
+            </ul>
+            <p class="total">Total: ~1,230 kcal</p>
+        </div>
+        <div class="day-card">
+            <h3 class="day7">Day 7</h3>
+            <ul>
+                <li><strong>Breakfast:</strong> Jhal Sooji (veggies) + Tea (50 ml milk) – 325 kcal</li>
+                <li><strong>Mid-Morning:</strong> Buttermilk (150 ml) – 20 kcal</li>
+                <li><strong>Lunch:</strong> Wheat bran chapati (2) + Tofu curry (100g) + Shukto + Salad – 540 kcal</li>
+                <li><strong>Evening:</strong> Banana (1) + Yogurt (100g) – 150 kcal</li>
+                <li><strong>Dinner:</strong> Poha (veggies, 100g) + Salad – 190 kcal</li>
+            </ul>
+            <p class="total">Total: ~1,225 kcal</p>
+        </div>
+    </div>
+
+    <div class="recipes">
+        <h2>Sample Recipes</h2>
+        <div class="recipe-item">
+            <h4>Chirer Pulao</h4>
+            <p>100g flattened rice, 50g veggies (peas, carrots), 1 tsp mustard oil, turmeric, cumin. Rinse rice, sauté spices and veggies, add rice, cook until soft. ~200 kcal.</p>
+        </div>
+        <div class="recipe-item">
+            <h4>Moong Dal</h4>
+            <p>50g moong dal, 1 tsp mustard oil, turmeric, cumin, 1 tomato. Cook dal with spices and tomato. ~200 kcal.</p>
+        </div>
+        <div class="recipe-item">
+            <h4>Shukto</h4>
+            <p>100g mixed veggies (bitter gourd, pumpkin), 1 tsp mustard oil, panch phoron, 50 ml milk. Sauté spices, add veggies, cook with milk. ~150 kcal.</p>
+        </div>
+    </div>
+
+    <div class="notes">
+        <h2>Notes</h2>
+        <p>This 1,200-calorie plan is safe for one week but consult a doctor for longer use. Bloating reduction (via yogurt, low-sodium foods) may make your belly appear flatter faster than fat loss alone. Results vary—monitor how you feel and adjust if needed.</p>
+    </div>
+</body>
+</html>
